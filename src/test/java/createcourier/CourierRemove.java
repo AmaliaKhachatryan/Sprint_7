@@ -1,4 +1,4 @@
-package createCourier;
+package createcourier;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -96,11 +95,7 @@ public class CourierRemove {
 
     @Test
     public void removeWithoutIdTest() {
-        given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete("http://qa-scooter.praktikum-services.ru/api/v1/courier/")
-                .then()
+        courierManager.removeCourierWithoutId()
                 .statusCode(SC_NOT_FOUND)
                 .and()
                 .assertThat()

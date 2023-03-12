@@ -1,6 +1,6 @@
-package createCourier;
+package createcourier;
 
-import dataBaseURI.BaseURI;
+import databaseuri.BaseURI;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
@@ -8,7 +8,6 @@ import static io.restassured.RestAssured.given;
 
 
 public class CourierManager extends BaseURI {
-    private static final String COURIER_URI = URI_SCOOTER_API + "courier/";
 
     @Step("Create courier")
     public ValidatableResponse create(CourierCreate courier) {
@@ -27,7 +26,7 @@ public class CourierManager extends BaseURI {
                 .spec(getBaseReqSpec())
                 .body(courierLogin)
                 .when()
-                .post(COURIER_URI + "login/")
+                .post(COURIER_URI_lOGIN)
                 .then();
     }
 
@@ -36,6 +35,13 @@ public class CourierManager extends BaseURI {
                 .spec(getBaseReqSpec())
                 .when()
                 .delete(COURIER_URI + courierID)
+                .then();
+    }
+    public ValidatableResponse removeCourierWithoutId() {
+        return given()
+                .spec(getBaseReqSpec())
+                .when()
+                .delete(COURIER_URI )
                 .then();
     }
 }

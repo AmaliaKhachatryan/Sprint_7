@@ -1,4 +1,4 @@
-package createCourier;
+package createcourier;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -66,11 +65,16 @@ public class CourierCreateTest {
                 .and()
                 .assertThat()
                 .body("ok", is(true));
+        courierId = courierManager.login(CourierLogin.from(courier))
+                .assertThat()
+                .body("id", notNullValue())
+                .extract().path("id");
         courierManager.create(courier)
                 .assertThat()
                 .statusCode(SC_CONFLICT)
                 .assertThat()
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+
     }
 
     @Test
@@ -82,6 +86,7 @@ public class CourierCreateTest {
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+
     }
 
     @Test
@@ -93,6 +98,7 @@ public class CourierCreateTest {
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+
     }
 
     @Test
@@ -105,6 +111,7 @@ public class CourierCreateTest {
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+
     }
 
     @Test
@@ -117,6 +124,7 @@ public class CourierCreateTest {
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
+
     }
 
     @Test
@@ -146,6 +154,10 @@ public class CourierCreateTest {
                 .and()
                 .assertThat()
                 .body("ok", is(true));
+        courierId = courierManager.login(CourierLogin.from(courier))
+                .assertThat()
+                .body("id", notNullValue())
+                .extract().path("id");
         CourierCreate newCourier = new CourierCreate(courier.getLogin(), RandomStringUtils.randomAlphabetic(10),
                 RandomStringUtils.randomAlphabetic(10));
         courierManager.create(newCourier)
@@ -155,6 +167,5 @@ public class CourierCreateTest {
                 .assertThat()
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
-
-
 }
+

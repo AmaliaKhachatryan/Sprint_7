@@ -1,6 +1,4 @@
-package createOrder;
-
-import java.util.Arrays;
+package createorder;
 
 public class CreateOrder {
     private String firstName;

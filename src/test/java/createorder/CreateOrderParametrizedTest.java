@@ -1,4 +1,4 @@
-package createOrder;
+package createorder;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -47,7 +47,6 @@ public class CreateOrderParametrizedTest {
                 {""}
         };
     }
-
     @Test
     public void courierCanBeCreatedWithValidDataTest() {
         CreateOrder order = GeneratorOrder.getRandom();
@@ -59,6 +58,5 @@ public class CreateOrderParametrizedTest {
                 .and()
                 .body("track", notNullValue())
                 .extract().path("track");
-
     }
 }

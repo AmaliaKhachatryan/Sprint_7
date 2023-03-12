@@ -1,4 +1,4 @@
-package createOrder;
+package createorder;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

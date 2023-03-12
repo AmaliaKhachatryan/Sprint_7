@@ -1,4 +1,4 @@
-package createCourier;
+package createcourier;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -81,91 +81,76 @@ public class CourierLoginTest {
 
     @Test
     public void courierAuthorizationWithNullLoginTest() {
-        CourierCreate courier = GeneratorCourier.getRandom();
-        courierManager.create(courier);
-        CourierLogin login = new CourierLogin(null, courier.getPassword());
+        CourierLogin login = new CourierLogin(null, RandomStringUtils.randomAlphabetic(10));
         courierManager.login(login)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для входа"));
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
     public void courierAuthorizationWithoutLoginTest() {
-        CourierCreate courier = GeneratorCourier.getRandom();
-        courierManager.create(courier);
-        CourierLogin login = new CourierLogin("", courier.getPassword());
+        CourierLogin login = new CourierLogin("", RandomStringUtils.randomAlphabetic(10));
         courierManager.login(login)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для входа"));
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
     public void courierAuthorizationWithNullPasswordTest() {
-        CourierCreate courier = GeneratorCourier.getRandom();
-        courierManager.create(courier);
-        CourierLogin login = new CourierLogin(courier.getLogin(), null);
+        CourierLogin login = new CourierLogin(RandomStringUtils.randomAlphabetic(10), null);
         courierManager.login(login)
                 .assertThat()
                 .statusCode(SC_GATEWAY_TIMEOUT);
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
     public void courierAuthorizationWithoutPasswordPasswordTest() {
-        CourierCreate courier = GeneratorCourier.getRandom();
-        courierManager.create(courier);
-        CourierLogin login = new CourierLogin(courier.getLogin(), "");
+               CourierLogin login = new CourierLogin(RandomStringUtils.randomAlphabetic(10), "");
         courierManager.login(login)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для входа"));
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
     public void courierAuthorizationNotValidPasswordAndLoginTest() {
         CourierCreate courier = GeneratorCourier.getRandom();
         courierManager.create(courier);
+        courierId = courierManager.login(CourierLogin.from(courier))
+                .assertThat()
+                .body("id", notNullValue())
+                .extract().path("id");
         CourierLogin login = new CourierLogin(courier.getLogin(),
                 RandomStringUtils.randomAlphabetic(10));
-        courierManager.login(login)
+                courierManager.login(login)
                 .assertThat()
                 .statusCode(SC_NOT_FOUND)
                 .and()
                 .assertThat()
                 .body("message", equalTo("Учетная запись не найдена"));
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
     public void courierAuthorizationNotValidLoginTest() {
         CourierCreate courier = GeneratorCourier.getRandom();
         courierManager.create(courier);
+        courierId = courierManager.login(CourierLogin.from(courier))
+                .assertThat()
+                .body("id", notNullValue())
+                .extract().path("id");
         CourierLogin login = new CourierLogin(RandomStringUtils.randomAlphabetic(10),
                 courier.getPassword());
         courierManager.login(login)
@@ -174,10 +159,7 @@ public class CourierLoginTest {
                 .and()
                 .assertThat()
                 .body("message", equalTo("Учетная запись не найдена"));
-        courierId = courierManager.login(CourierLogin.from(courier))
-                .assertThat()
-                .body("id", notNullValue())
-                .extract().path("id");
+
     }
 
     @Test
